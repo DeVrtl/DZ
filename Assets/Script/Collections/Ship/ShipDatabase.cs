@@ -1,18 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipDatabase : MonoBehaviour
+public class ShipDatabase
 {
     private Dictionary<int, ShipType> _shipTypes = new ();
 
     public IReadOnlyDictionary<int, ShipType> ShipTypes => _shipTypes;
-    
+
     public void InitializeDatabase()
     {
         _shipTypes = new Dictionary<int, ShipType>();
-        ShipType scout = new ShipType() { ID = 0, Speed = 10f, Armor = 50, Cost = 100 };
-        ShipType fighter = new ShipType() { ID = 1, Speed = 8f, Armor = 100, Cost = 200 };
-        ShipType cruiser = new ShipType() { ID = 7, Speed = 5f, Armor = 300, Cost = 500 };
+        
+        ShipType scout = ScriptableObject.CreateInstance<ShipType>();
+        scout.Initialize(0, 1f, 50, 100);
+        
+        ShipType fighter = ScriptableObject.CreateInstance<ShipType>();
+        fighter.Initialize(1, 8f, 100, 200);
+        
+        ShipType cruiser = ScriptableObject.CreateInstance<ShipType>();
+        cruiser.Initialize(7, 5f, 300, 500);
     
         _shipTypes.Add(scout.ID, scout);
         _shipTypes.Add(fighter.ID, fighter);

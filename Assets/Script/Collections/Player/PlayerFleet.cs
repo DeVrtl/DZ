@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFleet : MonoBehaviour
+public class PlayerFleet
 {
-    private HashSet<int> _shipsId = new ();
+    private readonly HashSet<int> _shipsId = new ();
     
     public bool AddToFleet(int shipId)
     {

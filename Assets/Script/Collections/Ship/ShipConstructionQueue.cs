@@ -1,15 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipConstructionQueue : MonoBehaviour
+public class ShipConstructionQueue
 {
-    [SerializeField] private ShipConstructionHistory _constructionHistory;
-    [SerializeField] private Player _player;
-    [SerializeField] private PlayerFleet _playerFleet;
-    [SerializeField] private ShipDatabase _database;
+    private readonly Player _player;
+    private readonly PlayerFleet _fleet;
+    private readonly ShipConstructionHistory _constructionHistory;
+    private readonly ShipDatabase _database;
     
-    private Queue<int> _contructionQueue = new ();
+    private readonly Queue<int> _contructionQueue = new ();
 
+    public ShipConstructionQueue(Player player, PlayerFleet fleet, ShipConstructionHistory constructionHistory, ShipDatabase database)
+    {
+        _player = player;
+        _fleet = fleet;
+        _constructionHistory = constructionHistory;
+        _database = database;
+    }
+    
     public void EnqueueShipToBuild(int shipId)
     {
         _contructionQueue.Enqueue(shipId);
@@ -26,7 +34,7 @@ public class ShipConstructionQueue : MonoBehaviour
             if (!_database.ShipTypes.TryGetValue(id, out ShipType ship))
                 return;
             
-            bool canAddShip = _playerFleet.AddToFleet(id);
+            bool canAddShip = _fleet.AddToFleet(id);
 
             if (canAddShip != true) 
                 return;

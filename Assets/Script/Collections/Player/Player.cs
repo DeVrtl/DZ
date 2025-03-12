@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player
 {
     public int Money { get; private set; } = 999999;
 

@@ -3,16 +3,29 @@ using UnityEngine;
 
 public class ConsturctionTest : MonoBehaviour
 {
-    [SerializeField] private ShipConstructionQueue _shipConstruction;
-    [SerializeField] private ShipConstructionHistory _constructionHistory;
+    [SerializeField] private EntryPoint _entryPoint;
     
-    private void Start()
+    private ShipConstructionQueue _shipConstruction;
+    private ShipConstructionHistory _constructionHistory;
+
+    private void OnEnable()
     {
+        _entryPoint.ConstructionInitialized += OnConstructionInitialized;
+    }
+
+    private void OnDisable()
+    {
+        _entryPoint.ConstructionInitialized -= OnConstructionInitialized;
+    }
+
+    private void OnConstructionInitialized(ShipConstructionQueue shipConstruction, ShipConstructionHistory constructionHistory)
+    {
+        _shipConstruction = shipConstruction;
+        _constructionHistory = constructionHistory;
+        
         _shipConstruction.EnqueueShipToBuild(0);
         _shipConstruction.EnqueueShipToBuild(1);
         _shipConstruction.EnqueueShipToBuild(7);
-        
-        _shipConstruction.EnqueueShipToBuild(0);
     }
 
     private void Update()

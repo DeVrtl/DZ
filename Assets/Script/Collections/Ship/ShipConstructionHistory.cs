@@ -1,14 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipConstructionHistory : MonoBehaviour
+public class ShipConstructionHistory
 {
-    [SerializeField] private Player _player;
-    [SerializeField] private PlayerFleet _fleet;
-    [SerializeField] private ShipDatabase _database;
+    private readonly Player _player;
+    private readonly PlayerFleet _fleet;
+    private readonly ShipDatabase _database;
     
-    private Stack<int> _buildHistory = new ();
+    private readonly Stack<int> _buildHistory = new ();
 
+    public ShipConstructionHistory(Player player, PlayerFleet fleet, ShipDatabase database)
+    {
+        _player = player;
+        _fleet = fleet;
+        _database = database;
+    }
+    
     public void Add(int id)
     {
         _buildHistory.Push(id);
