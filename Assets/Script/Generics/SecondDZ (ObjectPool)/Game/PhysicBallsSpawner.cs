@@ -18,7 +18,7 @@ public class PhysicBallsSpawner : MonoBehaviour
         {
             _elapsedTime = 0;
 
-            GameObject ball = _physicBallsInitializer.PoolOfPhysicsBalls.PullObject();
+            GameObject ball = _physicBallsInitializer.PoolOfPhysicsBalls.PullOrCreate();
             ball.transform.position = _spawnPoints[Random.Range(0, _spawnPoints.Count)].position;
             ball.SetActive(true);
         }

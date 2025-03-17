@@ -25,19 +25,17 @@ public class ObjectPool<T> : IPoolObject
         _disable = disable;
     }
     
-    public T PullObject()
+    public T PullOrCreate()
     {
-        T pullObject = _listOfObjects.FirstOrDefault(o => !_isActive(o));
+        T match = _listOfObjects.FirstOrDefault(o => !_isActive(o));
 
-        if (pullObject == null)
-        {
-            T instantiatedObject = _instantiate();
-            _listOfObjects.Add(instantiatedObject);
-
-            return instantiatedObject;
-        }
+        if (match != null) 
+            return match;
         
-        return pullObject;
+        T instantiatedObject = _instantiate();
+        _listOfObjects.Add(instantiatedObject);
+
+        return instantiatedObject;
     }
 
     public void Init()

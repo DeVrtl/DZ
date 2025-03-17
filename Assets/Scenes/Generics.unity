@@ -267,7 +267,7 @@ MonoBehaviour:
   - {fileID: 1277500793}
   - {fileID: 512425028}
   - {fileID: 1680197458}
-  _timeBetweenSpawn: 2
+  _timeBetweenSpawn: 0.5
 --- !u!1 &512425027
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PoolOfPhysicsBalls>k__BackingField:
     _objectPrefab: {fileID: 749721401482388077, guid: 3d4286510400e7f4292d22fd0f262194, type: 3}
-    _objectsCount: 3
+    _objectsCount: 10
 --- !u!4 &1553709916
 Transform:
   m_ObjectHideFlags: 0
