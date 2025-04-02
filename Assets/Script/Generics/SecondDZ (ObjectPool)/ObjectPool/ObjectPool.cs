@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[Serializable]
-public class ObjectPool<T> : IPoolObject
+public class ObjectPool<T> : IPoolObject<T>
 {
-    [SerializeField] private T _objectPrefab;
-    [SerializeField] private int _objectsCount;
-    
     private List<T> _listOfObjects = new ();
     private Func<T> _instantiate;
     private Func<T, bool> _isActive;
     private Action<T> _destroy;
     private Action<T> _disable;
+    private Action<T> _reset;
 
-    public T ObjectPrefab => _objectPrefab;
-    
-    public void Construct(Func<T> instantiate, Func<T, bool> isActive, Action<T> destroy, Action<T> disable)
+    public ObjectPool(Func<T> instantiate, Func<T, bool> isActive, Action<T> destroy, Action<T> disable, Action<T> reset)
     {
         _instantiate = instantiate;
-        _isActive = isActive;    
+        _isActive = isActive;
         _destroy = destroy;
         _disable = disable;
+        _reset = reset;
     }
     
     public T PullOrCreate()
@@ -34,26 +30,40 @@ public class ObjectPool<T> : IPoolObject
         
         T instantiatedObject = _instantiate();
         _listOfObjects.Add(instantiatedObject);
-
         return instantiatedObject;
     }
 
-    public void Init()
+    public void Init(T objectToPool, int count)
     {
-        for (int i = 0; i < _objectsCount; i++)
+        for (int i = 0; i < count; i++)
         {
-           T instantiatedObject = _instantiate();
-           _listOfObjects.Add(instantiatedObject);
-           _disable(instantiatedObject);
+            objectToPool = _instantiate();
+            _listOfObjects.Add(objectToPool);
+            _disable(objectToPool);
         }
     }
-
-    public void Deinti()
+    
+    public void Deinit(T objectToReturn)
+    {
+        if (objectToReturn != null && _listOfObjects.Contains(objectToReturn))
+        {
+            _listOfObjects.Add(objectToReturn);
+            Reset(objectToReturn);
+            _disable(objectToReturn);
+        }
+    }
+    
+    public void ClearPool()
     {
         foreach (var objectToRemove in _listOfObjects.ToList())
         {
             _listOfObjects.Remove(objectToRemove);
             _destroy(objectToRemove);
         }
+    }
+    
+    private void Reset(T objectToReset)
+    {
+        _reset(objectToReset);
     }
 }

@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnityLogger : MonoBehaviour
+namespace DZ.Delegates
 {
-    public void Log(string message)
+    public class UnityLogger : MonoBehaviour
     {
-        Debug.Log(message);
-    }
-	
-    public void LogCollection(IEnumerable<string> strs, Action<string> logAction)
-    {
-        foreach (string str in strs)
+        public void Log(string message)
         {
-            logAction(str);
+            Debug.Log(message);
+        }
+	
+        public void LogCollection(IEnumerable<string> strs, Action<string> logAction)
+        {
+            foreach (string str in strs)
+            {
+                logAction(str);
+            }
         }
     }
 }
